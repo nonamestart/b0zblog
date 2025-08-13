@@ -19,15 +19,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive    # PaperMod 若作为 submodule，这行必须要
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: 'latest'   # 也可写具体版本号，比如 '0.134.1'
+          hugo-version: 'latest'
           extended: true
+
+      # 可选：缓存 Hugo Modules，加速并减少网络波动
+      - name: Cache Hugo modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/hugo/modules
+          key: ${{ runner.os }}-hugo-${{ hashFiles('**/hugo.yaml') }}
+          restore-keys: ${{ runner.os }}-hugo-
+
       - name: Build
         run: hugo --minify
+
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
         with:
