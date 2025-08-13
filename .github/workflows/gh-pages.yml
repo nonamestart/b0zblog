@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: recursive    # 如果 PaperMod 以 submodule 方式引入，这行很重要
+          submodules: recursive
       - name: Setup Hugo
         uses: actions/setup-hugo@v3
         with:
